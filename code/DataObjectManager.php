@@ -32,7 +32,11 @@ class DataObjectManager extends ComplexTableField
 	public $hasNested = false;
 	public $isNested = false;
 	
-	
+	/**
+	 * Used by onAfterSaveComplexField() to ensure child classes call parent::onBeforeWrite()
+	 * @var boolean
+	 */
+	protected $brokenOnAfterSaveComplexField = false;
 
 
 	public $actions = array(
@@ -312,6 +316,11 @@ class DataObjectManager extends ComplexTableField
 		  $form->saveInto($childData);
 		  $childData->write();
 		}		
+		$this->brokenOnAfterSaveComplexField = true;
+		$this->onAfterSaveComplexField($childData, $data, $form, $params);
+		if($this->brokenOnAfterSaveComplexField) {
+			user_error("$this->class has a broken onAfterSaveComplexField() function.  Make sure that you call parent::onAfterSaveComplexField().", E_USER_ERROR);
+		}
 		$form->sessionMessage(sprintf(_t('DataObjectManager.ADDEDNEW','Added new %s successfully'),$this->SingleTitle()), 'good');
 
 		if($form->getFileFields() || $form->getNestedDOMs()) {
@@ -321,6 +330,18 @@ class DataObjectManager extends ComplexTableField
     }
 		else Director::redirectBack();
 
+	}
+	
+	/**
+	 * Called after a complex field is save
+	 * @param DataObject $childData
+	 * @param unknown_type $data
+	 * @param unknown_type $form
+	 * @param unknown_type $params
+	 */
+	protected function onAfterSaveComplexField(DataObject $childData, $data, $form, $params) {
+		$this->brokenOnAfterSaveComplexField = false;
+		$this->extend('onAfterSaveComplexField', $childData, $data, $form, $params);
 	}
 	
 	function setSourceID($val) { 
