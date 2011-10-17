@@ -333,6 +333,27 @@ class DataObjectManager extends ComplexTableField
 	}
 	
 	/**
+	 * Called to preselect, both in the database and on the form, the given $child.
+	 * @param unknown_type $childData
+	 * @param unknown_type $form
+	 */
+	protected function selectChild($childData, $form) {
+		$this->controller->{$this->Name()}()->add($childData);
+		if (isset($_REQUEST['DataObjectManagerId'])) {
+			$id = $_REQUEST['DataObjectManagerId'];
+			$childId = $childData->ID;
+			$form->addSessionJs(
+<<<EOF
+(function() {
+var list = top.jQuery("#{$id}_CheckedList");
+list.val(list.val()+'$childId,');
+})();
+EOF
+);
+		}
+	}
+	
+	/**
 	 * Called after a complex field is save
 	 * @param DataObject $childData
 	 * @param unknown_type $data
@@ -474,7 +495,7 @@ class DataObjectManager extends ComplexTableField
 	}
 
 	public function AddLink() {
-	    return Controller::join_links($this->BaseLink(), 'add');
+	    return Controller::join_links($this->BaseLink(), 'add', '?DataObjectManagerId='.$this->id());
 	}
 		
 	public function ShowAll()
@@ -858,8 +879,15 @@ class DataObjectManager_Popup extends Form {
 			Requirements::javascript('dataobject_manager/javascript/dom_jquery_ui.js');
 	  		Requirements::javascript('dataobject_manager/javascript/tooltip.js');    
 			Requirements::javascript('dataobject_manager/javascript/dataobject_manager.js');
-  	}
+	  	}
     $this->NestedController = $this->controller->isNested;
+		//Add the DataObjectManagerId to the form as a hidden input, if present.
+		if (isset($_REQUEST['DataObjectManagerId'])) {
+			$this->fields->push(
+				new HiddenField('DataObjectManagerId', null, $_REQUEST['DataObjectManagerId'])
+			);
+		}
+		
 	}
 
 	function FieldHolder() {
