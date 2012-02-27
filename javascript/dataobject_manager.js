@@ -6,6 +6,21 @@ $.fn.DataObjectManager = function() {
 	});
 };
 
+// Dodgy hack to fix shrinking content issue
+var $bottom = $('#bottom'),
+	bottomHeight = $bottom.height(),
+	increaseSize = true;
+setInterval(
+	function() {
+		$bottom.css({
+			'bottom': (increaseSize ? 1 : 0) + 'px',
+			'height': (increaseSize ? bottomHeight+1 : bottomHeight-1) + 'px'
+		});
+		increaseSize = !increaseSize;
+	},
+	5000
+);
+
 $.fn.DataObjectManager.init = function(obj) {
 
 
@@ -381,15 +396,6 @@ $('.DataObjectManager').livequery(function(){
 
 function refresh($div, link, focus)
 {
-	// Dirty hack to fix bug where admin becomes very small until the page is redrawn
-	var $bottom = jQuery('#bottom');
-	$bottom.css({'bottom': '-1px', 'height': ($bottom.height() + 1) + 'px'});
-	setTimeout(
-		function() {
-			$bottom.css({'bottom': '0', 'height': ($bottom.height() - 1) + 'px'});
-		},
-		1000
-	);
 	 // Kind of a hack. Pass the list of ids to the next refresh
 	 var listValue = ($div.hasClass('RelationDataObjectManager')) ? jQuery('#'+$div.attr('id')+'_CheckedList').val() : false;
 	 	 
