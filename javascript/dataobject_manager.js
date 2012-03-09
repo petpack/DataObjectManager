@@ -6,21 +6,6 @@ $.fn.DataObjectManager = function() {
 	});
 };
 
-// Dodgy hack to fix shrinking content issue
-var $bottom = $('#bottom'),
-	bottomHeight = $bottom.height(),
-	increaseSize = true;
-setInterval(
-	function() {
-		$bottom.css({
-			'bottom': (increaseSize ? 1 : 0) + 'px',
-			'height': (increaseSize ? bottomHeight+1 : bottomHeight-1) + 'px'
-		});
-		increaseSize = !increaseSize;
-	},
-	5000
-);
-
 $.fn.DataObjectManager.init = function(obj) {
 
 
