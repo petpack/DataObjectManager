@@ -56,6 +56,9 @@ class SimpleTreeDropdownField extends HTMLDropdownField
 	private function getHierarchy($parentID, $level = 0)
 	{
 		$options = array();
+		if( $parentID ) {
+			$options[$parentID] = DataObject::get_by_id($this->sourceClass, $parentID)->__get($this->labelField);
+		}
 		$class = ($this->sourceClass == "SiteTree" || is_subclass_of($this->sourceClass, "SiteTree")) ? "SiteTree" : $this->sourceClass;
 		$filter = ($this->filter) ? "\"ParentID\" = $parentID AND $this->filter" : "\"ParentID\" = $parentID";
 		if($children = DataObject::get($class, $filter)) {
