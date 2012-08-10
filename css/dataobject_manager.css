@@ -20,6 +20,7 @@
 .list .dataobject-list li.head a:hover {background:none;}
 .list .dataobject-list li {width:98.9%;overflow:hidden;border-bottom:1px solid #e4e4e4;padding:4px 5px;text-align:left;font-size:12px;}
 .list .dataobject-list li .fields-wrap {width:90%;float:left;}
+.list .dataobject-list li .fields-wrap .col {overflow:hidden;}
 .list .dataobject-list li .fields-wrap .col li {width:auto;border:0;padding:0;}
 .ui-sortable li {cursor:move;}
 
