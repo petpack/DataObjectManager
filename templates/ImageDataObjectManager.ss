@@ -12,7 +12,7 @@
 	<div class="dataobjectmanager-filter">
 		<% if HasFilter %>$FilterDropdown<% end_if %>
 	</div>
-	<div style="clear:both;">&nbsp;</div>
+	<div style="clear:both;"></div>
 	<div class="top-controls">
 		<div class="rounded_table_top_right">
 			<div class="rounded_table_top_left">
@@ -32,7 +32,7 @@
 					<% else %><span class="Last"><img src="dataobject_manager/images/resultset_last_disabled.png" alt="" /></span><% end_if %>
 				</div>
 				<div class="dataobjectmanager-search">
-					<span class="sbox_l"></span><span class="sbox"><input value="<% if SearchValue %>$SearchValue<% else %><% _t('DataObjectManager.SEARCH','Search') %><% end_if %>" type="text" class="srch_fld"  /></span><span class="sbox_r srch_clear"></span>
+					<% if HasSearch %><span class="sbox_l"></span><span class="sbox"><input value="<% if SearchValue %>$SearchValue<% else %><% _t('DataObjectManager.SEARCH','Search') %><% end_if %>" type="text" class="srch_fld"  /></span><span class="sbox_r srch_clear"></span><% end_if %>
 				</div>
 				<div style="clear:both;"></div>
 			</div>

@@ -3,6 +3,7 @@
 	$.fn.autoComplete = function() {
 		return this.each(function() {
 			var $element = $(this);
+			var $container = $(this).closest('.autocomplete_holder');
 			$element.initial_val = $element.val();
 			$(this).attr('autocomplete','off')
 				.focus(function() {
@@ -46,9 +47,29 @@
 			.blur(function() {
 				$t = $(this);
 				setTimeout(function() {
-					$t.toggleClass('focus').val($element.initial_val).siblings('.autocomplete_results').hide();
+					$t.toggleClass('focus').siblings('.autocomplete_results').hide();
 				}, 500);
-			})			
+			})
+			
+			if($container.hasClass('livedropdownfield')) {
+				$container.find('.livedropdown_browse').click(function() {
+					var $t = $(this);				
+					var $resultsDiv = $(this).siblings('.autocomplete_results');
+					$resultsDiv.load(
+						$t.siblings('.autocomplete_input').metadata().url, 
+						{q : ''},
+						function(data) {
+							if(data.length) {
+								$resultsDiv.show();
+							}
+							else {
+								$resultsDiv.hide();
+							}
+						}
+					);
+					return false;					
+				});			
+			}			
 			
 		});
 	};
@@ -56,5 +77,11 @@ $(function() {
 	$('input.autocomplete_input').livequery(function() {
 		$(this).autoComplete();
 	});
+	$('.livedropdownfield .autocomplete_results a').livequery("click", function() {
+		$(this).closest('.livedropdownfield').find(':hidden').val(this.hash.replace('#',''));
+		$(this).closest('.livedropdownfield').find('.autocomplete_input').val($(this).text()).blur();
+		return false;
+	});
+
 });
 })(jQuery);

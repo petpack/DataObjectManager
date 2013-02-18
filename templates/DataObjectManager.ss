@@ -32,7 +32,7 @@
 					<% else %><span class="Last"><img src="dataobject_manager/images/resultset_last_disabled.png" alt="" /></span><% end_if %>
 				</div>
 				<div class="dataobjectmanager-search">
-					<span class="sbox_l"></span><span class="sbox"><input value="<% if SearchValue %>$SearchValue<% else %><% _t('DataObjectManager.SEARCH','Search') %><% end_if %>" type="text" class="srch_fld"  /></span><span class="sbox_r srch_clear"></span>
+					<% if HasSearch %><span class="sbox_l"></span><span class="sbox"><input value="<% if SearchValue %>$SearchValue<% else %><% _t('DataObjectManager.SEARCH','Search') %><% end_if %>" type="text" class="srch_fld"  /></span><span class="sbox_r srch_clear"></span><% end_if %>
 				</div>
 				<div style="clear:both;"></div>
 			</div>
@@ -40,7 +40,7 @@
 	</div>
 	<div class="list column{$Headings.Count}" class="list-holder" style="width:100%;">
 		<div class="dataobject-list">		
-		<ul <% if ShowAll %>class="sortable-{$sourceClass}"<% end_if %>>
+			<ul class="<% if ShowAll %>sortable-{$sourceClass}<% end_if %><% if ClickToToggle %> toggleSelect<% end_if %>">
 				<li class="head">
 					<div class="fields-wrap">
 					<% control Headings %>
@@ -87,10 +87,13 @@
 	<div class="bottom-controls">
 		<div class="rounded_table_bottom_right">
 			<div class="rounded_table_bottom_left">
-				<div class="sort-control">
-					<% if Sortable %>
+				<% if Sortable %>
+					<div class="sort-control">
 						<input id="showall-{$id}" type="checkbox" <% if ShowAll %>checked="checked"<% end_if %> value="<% if Paginated %>$ShowAllLink<% else %>$PaginatedLink<% end_if %>" /><label for="showall-{$id}"><% _t('DataObjectManager.DRAGDROP','Allow drag &amp; drop reordering') %></label>
-					<% end_if %>
+					</div>
+				<% end_if %>
+				<div class="dataobjectmanager-button">
+					<a href="$ExportLink"><% sprintf(_t('DataObjectManager.EXPORT','Export %s'),$PluralTitle) %></span></a>
 				</div>
 				<div class="per-page-control">
 					<% if ShowAll %><% else %>$PerPageDropdown<% end_if %>

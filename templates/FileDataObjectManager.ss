@@ -1,4 +1,4 @@
-<div id="$id" class="RequestHandler FormField DataObjectManager FileDataObjectManager $NestedType field" href="$CurrentLink">
+<div id="$id" class="RequestHandler FormField DataObjectManager FileDataObjectManager TableListField $NestedType field" href="$CurrentLink">
 	<div class="ajax-loader"></div>
 	<div class="dataobjectmanager-actions <% if HasFilter %>filter<% end_if %>">
 		<% if Can(add) %>
@@ -12,7 +12,7 @@
 	<div class="dataobjectmanager-filter">
 		<% if HasFilter %>$FilterDropdown<% end_if %>
 	</div>
-	<div style="clear:both;">&nbsp;</div>
+	<div style="clear:both;"></div>
 	<div class="top-controls">
 		<div class="rounded_table_top_right">
 			<div class="rounded_table_top_left">
@@ -34,7 +34,7 @@
 					<% else %><span class="Last"><img src="dataobject_manager/images/resultset_last_disabled.png" alt="" /></span><% end_if %>
 				</div>
 				<div class="dataobjectmanager-search">
-					<span class="sbox_l"></span><span class="sbox"><input value="<% if SearchValue %>$SearchValue<% else %><% _t('DataObjectManager.SEARCH','Search') %><% end_if %>" type="text" class="srch_fld"  /></span><span class="sbox_r srch_clear"></span>
+					<% if HasSearch %><span class="sbox_l"></span><span class="sbox"><input value="<% if SearchValue %>$SearchValue<% else %><% _t('DataObjectManager.SEARCH','Search') %><% end_if %>" type="text" class="srch_fld"  /></span><span class="sbox_r srch_clear"></span><% end_if %>
 				</div>
 				<div style="clear:both;"></div>
 			</div>
@@ -72,6 +72,17 @@
 				<% if Items %>
 				<% control Items %>
 					<li class="data" id="record-$Parent.id-$ID">
+
+						<% if Top.allowDragDrop %>
+						<table class="drag-pointer">
+							<tr id="record-Files-$ID">
+								<td id="drag-Files-$ID" class="dragfile" style="float: left;">
+									<img id="drag-img-Files-$ID" src="sapphire/images/drag.gif"/>
+								</td>
+							</tr>
+						</table>
+						<% end_if %>
+
 						<!-- LIST VIEW -->
 						<% if Top.ListView %>
 							<div class="fields-wrap">
@@ -101,9 +112,9 @@
 				<% else %>
 						<li><em><% sprintf(_t('DataObjectManager.NOITEMSFOUND','No %s found'),$PluralTitle) %></em></li>
 				<% end_if %>
-				
+
 			</ul>
-		</div>		
+		</div>
 	</div>
 	<div class="bottom-controls">
 		<div class="rounded_table_bottom_right">
@@ -116,7 +127,7 @@
 				<div class="per-page-control">
 					<% if ShowAll %><% else %>$PerPageDropdown<% end_if %>
 				</div>
-				
+
 			</div>
 		</div>
 	</div>
