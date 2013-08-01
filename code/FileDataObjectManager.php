@@ -222,9 +222,9 @@ class FileDataObjectManager extends DataObjectManager
 		return $this->addTitle ? $this->addTitle : $this->PluralTitle();
 	}
 	
-	public function allowUploadFolderSelection()
+	public function allowUploadFolderSelection($val = true)
 	{
-		$this->allowUploadFolderSelection = true;
+		$this->allowUploadFolderSelection = !!$val;
 	}
 	
 	public function allowDragDrop()

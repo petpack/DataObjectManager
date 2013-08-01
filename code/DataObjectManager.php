@@ -122,6 +122,7 @@ class DataObjectManager extends ComplexTableField
 		Requirements::css('dataobject_manager/css/facebox.css');
 		if(self::$allow_css_override)
   			Requirements::css('dataobject_manager/css/dataobjectmanager_override.css');
+		Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
 		Requirements::javascript(THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js');
 		Requirements::javascript('dataobject_manager/javascript/facebox.js');
 		Requirements::javascript('dataobject_manager/javascript/dom_jquery_ui.js');
@@ -796,6 +797,7 @@ class DataObjectManager_Item extends ComplexTableField_Item {
 	   }
 	   return $actions;
 	}
+	
 }
 
 class DataObjectManager_Controller extends Controller
@@ -857,10 +859,17 @@ class DataObjectManager_Popup extends Form {
 		$this->dataObject = $dataObject;
 		Requirements::clear();
 		Requirements::clear_combined_files();
-		// added prototype.js to provide support for TreeDropdownField
+		
+		//This is blocked by BASFPage but needed for the popup.
+		//TODO: we should probably look to see if jquery has already been 
+		//	required and only require it if it hasn't been.
+		Requirements::unblock(THIRDPARTY_DIR.'/jquery/jquery.js');
+		Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
+		
+		// added prototype.js to provide support for TreeDropdownField		
 		Requirements::javascript(THIRDPARTY_DIR.'/prototype/prototype.js');
-	    Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
-		Requirements::javascript(THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js');
+
+		Requirements::javascript(THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js');    
 		Requirements::block(THIRDPARTY_DIR.'/behaviour.js');
 		Requirements::block(SAPPHIRE_DIR.'/javascript/Validator.js');
 		Requirements::clear(THIRDPARTY_DIR.'/behavior.js');
@@ -879,7 +888,7 @@ class DataObjectManager_Popup extends Form {
 		Requirements::css(CMS_DIR . '/css/typography.css');
 		Requirements::css(CMS_DIR . '/css/cms_right.css');
 	    Requirements::css('dataobject_manager/css/dataobject_manager.css');
-
+	    
  		if($this->dataObject->hasMethod('getRequirementsForPopup')) {
 			$this->dataObject->getRequirementsForPopup();
 		}
