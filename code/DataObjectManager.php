@@ -857,10 +857,17 @@ class DataObjectManager_Popup extends Form {
 		$this->dataObject = $dataObject;
 		Requirements::clear();
 		Requirements::clear_combined_files();
-		// added prototype.js to provide support for TreeDropdownField
+		
+		// added prototype.js to provide support for TreeDropdownField		
 		Requirements::javascript(THIRDPARTY_DIR.'/prototype/prototype.js');
-	    Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
-		Requirements::javascript(THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js');
+		
+		//This is blocked by BASFPage but needed for the popup.
+		//TODO: we should probably look to see if jquery has already been 
+		//	required and only require it if it hasn't been.
+		Requirements::unblock(THIRDPARTY_DIR.'/jquery/jquery.js');
+		Requirements::javascript(THIRDPARTY_DIR.'/jquery/jquery.js');
+		
+		Requirements::javascript(THIRDPARTY_DIR.'/jquery-livequery/jquery.livequery.js');    
 		Requirements::block(THIRDPARTY_DIR.'/behaviour.js');
 		Requirements::block(SAPPHIRE_DIR.'/javascript/Validator.js');
 		Requirements::clear(THIRDPARTY_DIR.'/behavior.js');
