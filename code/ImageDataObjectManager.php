@@ -2,7 +2,7 @@
 
 class ImageDataObjectManager extends FileDataObjectManager
 {
-	protected static $sliderWidth = 150;
+	private $sliderWidth = 150;
 	protected static $minImageSize = 25;
 	protected static $maxImageSize = 300;
 
@@ -17,13 +17,25 @@ class ImageDataObjectManager extends FileDataObjectManager
 	public $imageSize = 100;
 	
 	public $uploadifyField = "MultipleImageUploadField";
+	
+	/**
+	 * Sets the width of the size slider
+	 * @param int $width in pixels.
+	 */
+	public function setSliderWidth($width = 150) {
+		$this->sliderWidth = intval($width);
+		//display is controlled by CSS:
+		Requirements::customCSS("#size-control-wrap { width: ". 
+				$this->sliderWidth . "px !important} ");
+	}
 
 	public function __construct($controller, $name = null, $sourceClass = null, $fileFieldName = null, $fieldList = null, $detailFormFields = null, $sourceFilter = "", $sourceSort = "", $sourceJoin = "") 
 	{
-		parent::__construct($controller, $name, $sourceClass, $fileFieldName, $fieldList, $detailFormFields, $sourceFilter, $sourceSort, $sourceJoin); 
+		parent::__construct($controller, $name, $sourceClass, $fileFieldName, $fieldList, $detailFormFields, $sourceFilter, $sourceSort, $sourceJoin);
+		
 		Requirements::css('dataobject_manager/css/ui/dom_jquery_ui.css');
 		Requirements::javascript('dataobject_manager/javascript/imagedataobject_manager.js');
-
+		
 		if(isset($_REQUEST['ctf'][$this->Name()])) {		
 				$this->imageSize = $_REQUEST['ctf'][$this->Name()]['imagesize'];
 		}
@@ -47,7 +59,7 @@ class ImageDataObjectManager extends FileDataObjectManager
 	
 	public function SliderPosition()
 	{
-		return floor(($this->SliderPercentage()/100) * self::$sliderWidth); // handle is 16px wide
+		return floor(($this->SliderPercentage()/100) * $this->sliderWidth); // handle is 16px wide
 	}
 		
 
@@ -86,7 +98,9 @@ class ImageDataObjectManager_Popup extends FileDataObjectManager_Popup
 	function __construct($controller, $name, $fields, $validator, $readonly, $dataObject) 
 	{
 			parent::__construct($controller, $name, $fields, $validator, $readonly, $dataObject);
+			
 			Requirements::css('dataobject_manager/css/imagedataobject_manager.css');
+			Requirements::block('pagewidget/css/PageWidgets.css');
 	}
 
 }
