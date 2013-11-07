@@ -3,17 +3,17 @@
 class ManyManyDataObjectManager extends HasManyDataObjectManager
 {
 
-  protected static $only_related;
+	protected static $only_related;
 	private $manyManyParentClass;
 	protected $manyManyTable;
 	public $RelationType = "ManyMany";
 	public $itemClass = 'ManyManyDataObjectManager_Item';
 	protected $OnlyRelated = false;
 	protected $sortableOwner;
-	
+
 	public static function set_only_related($bool)
 	{
-	  self::$only_related = $bool;
+		self::$only_related = $bool;
 	}
 
 	/**
@@ -38,14 +38,14 @@ class ManyManyDataObjectManager extends HasManyDataObjectManager
 				$belongsManyManyRelations = $singleton->uninherited( 'belongs_many_many', true );
 				 if( isset( $belongsManyManyRelations ) && array_key_exists( $this->name, $belongsManyManyRelations ) ) {
 					$this->manyManyParentClass = $class;
-					
+
 					// @modification http://open.silverstripe.org/ticket/5194
 					$manyManyClass = $belongsManyManyRelations[$this->name];
 					$manyManyRelations = singleton($manyManyClass)->uninherited('many_many', true);
 					foreach($manyManyRelations as $manyManyRelationship => $manyManyChildClass)
 						if ($manyManyChildClass == $class)
 							break;
-					
+
 					$manyManyTable = $manyManyClass . '_' . $manyManyRelationship;
 					break;
 				}
@@ -59,42 +59,42 @@ class ManyManyDataObjectManager extends HasManyDataObjectManager
 		if($this->manyManyParentClass == $sourceField)
 			$sourceField = 'Child';
 		$parentID = $this->controller->ID;
-		
+
 		$this->sourceJoin .= " LEFT JOIN \"$manyManyTable\" ON (\"$source\".\"ID\" = \"$manyManyTable\".\"{$sourceField}ID\" AND \"$manyManyTable\".\"{$this->manyManyParentClass}ID\" = '$parentID')";
-		
+
 		$this->joinField = 'Checked';
 		if(isset($_REQUEST['ctf'][$this->Name()]['only_related']))
-		  $this->OnlyRelated = $_REQUEST['ctf'][$this->Name()]['only_related'];
+			$this->OnlyRelated = $_REQUEST['ctf'][$this->Name()]['only_related'];
 
 		$this->addPermission('only_related');
-		
+
 		if($this->ShowAll() && SortableDataObject::is_sortable_many_many($this->sourceClass()))
-		  $this->OnlyRelated = '1';
+			$this->OnlyRelated = '1';
 
 	}
-	
+
 	public function setParentClass($class)
 	{
 		parent::setParentClass($class);
 		$this->joinField = "Checked";
 	}
-	
+
 
 	protected function loadSort() {
 
-		if($this->ShowAll()) 
+		if($this->ShowAll())
 			$this->setPageSize(999);
 
 		$original_sort = $this->sourceSort;
-	    if(SortableDataObject::is_sortable_many_many($this->sourceClass(), $this->manyManyParentClass)) {
-	      list($parentClass, $componentClass, $parentField, $componentField, $table) = singleton($this->controllerClass())->many_many($this->Name());
-	      $sort_column = "MMSort";
-	      if(!isset($_REQUEST['ctf'][$this->Name()]['sort']) || $_REQUEST['ctf'][$this->Name()]['sort'] == $sort_column) {
-	        $this->sort = $sort_column;
-	        $this->sourceSort = "\"$sort_column\" " . SortableDataObject::$sort_dir;
-			$this->sourceSort .= ", \"Checked\" DESC";
-	      }
-	    } elseif($this->Sortable() && (!isset($_REQUEST['ctf'][$this->Name()]['sort']) || $_REQUEST['ctf'][$this->Name()]['sort'] == "SortOrder")) {
+		if(SortableDataObject::is_sortable_many_many($this->sourceClass(), $this->manyManyParentClass)) {
+			list($parentClass, $componentClass, $parentField, $componentField, $table) = singleton($this->controllerClass())->many_many($this->Name());
+			$sort_column = "MMSort";
+			if(!isset($_REQUEST['ctf'][$this->Name()]['sort']) || $_REQUEST['ctf'][$this->Name()]['sort'] == $sort_column) {
+				$this->sort = $sort_column;
+				$this->sourceSort = "\"$sort_column\" " . SortableDataObject::$sort_dir;
+				$this->sourceSort .= ", \"Checked\" DESC";
+			}
+		} elseif($this->Sortable() && (!isset($_REQUEST['ctf'][$this->Name()]['sort']) || $_REQUEST['ctf'][$this->Name()]['sort'] == "SortOrder")) {
 			$this->sort = "SortOrder";
 			$this->sourceSort = "\"SortOrder\" " . SortableDataObject::$sort_dir;
 			$this->sourceSort .= ", \"Checked\" DESC";
@@ -106,36 +106,36 @@ class ManyManyDataObjectManager extends HasManyDataObjectManager
 
 		if ($original_sort && $original_sort != $this->sourceSort) $this->sourceSort .= ', '.$original_sort;
 	}
-	
-	
-	public function setOnlyRelated($bool) 
+
+
+	public function setOnlyRelated($bool)
 	{
-	   if(!isset($_REQUEST['ctf'][$this->Name()]['only_related']))
-  	   $this->OnlyRelated = $bool;
+		if(!isset($_REQUEST['ctf'][$this->Name()]['only_related']))
+			$this->OnlyRelated = $bool;
 	}
-	
+
 	public function OnlyRelated()
 	{
-	   return self::$only_related !== null ? self::$only_related : $this->OnlyRelated;
+		return self::$only_related !== null ? self::$only_related : $this->OnlyRelated;
 	}
-	
+
 	public function getQueryString($params = array())
-	{ 
+	{
 		$only_related = isset($params['only_related'])? $params['only_related'] : $this->OnlyRelated();
 		return parent::getQueryString($params)."&ctf[{$this->Name()}][only_related]={$only_related}";
 	}
-	
+
 	public function OnlyRelatedLink()
 	{
-	   return $this->RelativeLink(array('only_related' => '1'));
+		return $this->RelativeLink(array('only_related' => '1'));
 	}
-	
+
 	public function AllRecordsLink()
 	{
-	   return $this->RelativeLink(array('only_related' => '0'));
+		return $this->RelativeLink(array('only_related' => '0'));
 	}
-	
-		
+
+
 	function getQuery($limitClause = null) {
 		if($this->customQuery) {
 			$query = $this->customQuery;
@@ -145,7 +145,7 @@ class ManyManyDataObjectManager extends HasManyDataObjectManager
 		}
 		else {
 			$query = singleton($this->sourceClass)->extendedSQL($this->sourceFilter, $this->sourceSort, $limitClause, $this->sourceJoin);
-			
+
 			// Add more selected fields if they are from joined table.
 
 			$SNG = singleton($this->sourceClass);
@@ -162,23 +162,23 @@ class ManyManyDataObjectManager extends HasManyDataObjectManager
 			$query->select[] = "$when_clause AS \"Checked\"";
 			// everything we add to select must be added to groupby too...
 			$query->groupby[] = $when_clause;
-			
-		    if (SortableDataObject::is_sortable_many_many($this->sourceClass(), $this->manyManyParentClass)) {
+
+			if (SortableDataObject::is_sortable_many_many($this->sourceClass(), $this->manyManyParentClass)) {
 				$query->select[] = "COALESCE(\"$mm\".\"SortOrder\",9999999) AS \"MMSort\"";
 				// everything we add to select must be added to groupby too...
 				$query->groupby[] = "COALESCE(\"$mm\".\"SortOrder\",9999999)";
 			}
-			
+
 			if($this->OnlyRelated())
 				$query->where[] = "(\"$mm\".\"{$this->manyManyParentClass}ID\" IS NOT NULL)";
 		}
 		return clone $query;
 	}
-		
+
 	function getParentIdName($parentClass, $childClass) {
 		return $this->getParentIdNameRelation($parentClass, $childClass, 'many_many');
 	}
-			
+
 	function ExtraData() {
 		$items = array();
 		// changed to avoid having to use $this->unpagedSourceItems because it fails on large datasets
@@ -203,7 +203,7 @@ HTML;
 	function getSelectedIDs() {
 		$ids = array();
 		$dataQuery = $this->getQuery();
-		$dataQuery->where("(\"$this->manyManyTable\".\"{$this->manyManyParentClass}ID\" IS NOT NULL)");		
+		$dataQuery->where("(\"$this->manyManyTable\".\"{$this->manyManyParentClass}ID\" IS NOT NULL)");
 		$records = $dataQuery->execute();
 		$class = $this->sourceClass;
 		foreach($records as $record) {
@@ -213,32 +213,34 @@ HTML;
 		return $ids;
 	}
 
-   public function Sortable() 
-   { 
-      return ( 
-          $this->IsReadOnly !== true && 
-          $this->controller->canEdit(Member::currentUser()) && 
-          ( 
-             SortableDataObject::is_sortable_many_many($this->sourceClass()) || 
-             SortableDataObject::is_sortable_class($this->sourceClass()) 
-          ) 
-       ); 
-   }
-   	
+
+
+	public function Sortable()
+	{
+		return (
+			$this->IsReadOnly !== true &&
+			$this->controller->canEdit(Member::currentUser()) &&
+			(
+				SortableDataObject::is_sortable_many_many($this->sourceClass()) ||
+				SortableDataObject::is_sortable_class($this->sourceClass())
+			)
+		);
+	}
+
 	public function SortableClass()
 	{
-	   return $this->manyManyParentClass."-".$this->sourceClass();
+		return $this->manyManyParentClass."-".$this->sourceClass();
 	}
 
 
 }
 
 class ManyManyDataObjectManager_Item extends DataObjectManager_Item {
-	
+
 	function MarkingCheckbox() {
 		$name = $this->parent->Name() . '[]';
 		$disabled = $this->parent->hasMarkingPermission() ? "" : "disabled='disabled'";
-		
+
 		if($this->parent->IsReadOnly)
 			return "<input class=\"checkbox\" type=\"checkbox\" name=\"$name\" value=\"{$this->item->ID}\" disabled=\"disabled\"/>";
 		else if($this->item->{$this->parent->joinField})
