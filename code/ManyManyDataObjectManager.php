@@ -11,6 +11,11 @@ class ManyManyDataObjectManager extends HasManyDataObjectManager
 	protected $OnlyRelated = false;
 	protected $sortableOwner;
 
+	/**
+	 * @see self::setSelectedIDs()
+	 */
+	protected $selectedIDs;
+
 	public static function set_only_related($bool)
 	{
 		self::$only_related = $bool;
@@ -200,20 +205,52 @@ HTML;
 	 * @see HasManyDataObjectManager::getSelectedIDs()
 	 * @return array
 	 */
-	function getSelectedIDs() {
-		$ids = array();
-		$dataQuery = $this->getQuery();
-		$dataQuery->where("(\"$this->manyManyTable\".\"{$this->manyManyParentClass}ID\" IS NOT NULL)");
-		$records = $dataQuery->execute();
-		$class = $this->sourceClass;
-		foreach($records as $record) {
-			$item = new $class($record);
-			$ids[] = $item->ID;
+	function getSelectedIDs()
+	{
+		if ($this->selectedIDs) {
+			$ids = $this->selectedIDs;
 		}
+		else {
+			$ids = array();
+			$dataQuery = $this->getQuery();
+			$dataQuery->where("(\"$this->manyManyTable\".\"{$this->manyManyParentClass}ID\" IS NOT NULL)");
+			$records = $dataQuery->execute();
+			$class = $this->sourceClass;
+			foreach($records as $record) {
+				$item = new $class($record);
+				$ids[] = $item->ID;
+			}
+		}
+
 		return $ids;
 	}
 
-
+	/**
+	 * Allows you to override the IDs that will be returned by self::getSelectedIDs.
+	 * This could be useful if you would like to provide a default set of IDs for
+	 * uninitialised objects.
+	 *
+	 * @param mixed takes an array or any object with a map method such as DataObjectSet
+	 *              will also convert an integer to an array
+	 */
+	public function setSelectedIDs($ids)
+	{
+		if ($ids) {
+			switch (gettype($ids)) {
+				case 'array':
+					$this->selectedIDs = $ids;
+					break;
+				case 'integer':
+					$this->selectedIDs = (array) $ids;
+					break;
+				case 'object':
+					if ($ids->Count()) {
+						$this->selectedIDs = array_keys($ids->map());
+					}
+					break;
+			}
+		}
+	}
 
 	public function Sortable()
 	{
