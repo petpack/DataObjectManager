@@ -286,7 +286,7 @@ class DataObjectManager extends ComplexTableField
 
 	function FieldHolder()
 	{
-		if(!$this->controller->ID && $this->isNested)
+		if(!$this->controller->ID && $this->isNested && (!$this->isReadonly()))
 			return $this->renderWith('DataObjectManager_holder');
 		return parent::FieldHolder();
 	}
@@ -440,8 +440,11 @@ EOF
 		if($files = $form->getFileFields()) {
 			foreach($files as $field)	$titles[] = DOMUtil::readable_class($field->Title());
 		}
-		if($doms = $form->getNestedDOMs())
-			foreach($doms as $field) $titles[] = $field->PluralTitle();
+		if($doms = $form->getNestedDOMs()) {
+			foreach($doms as $field) {
+				if (!$field->isReadOnly()) $titles[] = $field->PluralTitle();
+			}
+		}
     if(empty($titles))
       $text = _t('DataObjectManager.SAVE','Save');
     elseif(sizeof($titles) > 3) {
