@@ -35,7 +35,7 @@ class DataObjectManager extends ComplexTableField
 	
 	/**
 	 * Used by onAfterSaveComplexField() to ensure child classes call parent::onBeforeWrite()
-	 * @var boolean
+	 * @var SS_Boolean
 	 */
 	protected $brokenOnAfterSaveComplexField = false;
 
@@ -693,11 +693,11 @@ class DataObjectManager_Item extends ComplexTableField_Item {
 		parent::__construct($item, $parent);
 	}
 
-	function Link() {
-    return Controller::join_links($this->parent->BaseLink(), 'item', $this->item->ID);
+	function Link($action = null) {
+    return Controller::join_links($this->parent->BaseLink($action), 'item', $this->item->ID);
 	}
 
-	function Fields() {
+	function Fields($xmlSafe = true) {
 		$fields = parent::Fields();
 		$widths = $this->parent->getColumnWidths();
 		if(!empty($widths)) {
@@ -989,9 +989,9 @@ class DataObjectManager_ItemRequest extends ComplexTableField_ItemRequest
     }
 	}
 
-	function Link()
+	function Link($action = null)
 	{
-    return Controller::join_links($this->ctf->BaseLink() , 'item', $this->itemID);
+    return Controller::join_links($this->ctf->BaseLink($action) , 'item', $this->itemID);
   }
 
 	function saveComplexTableField($data, $form, $request) {

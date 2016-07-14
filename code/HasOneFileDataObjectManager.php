@@ -19,7 +19,7 @@ class HasOneFileDataObjectManager extends HasManyFileDataObjectManager
 		return $this->controller->{$this->joinField};
 	}
 	
-	function saveInto(DataObject $record) {
+	function saveInto(DataObjectInterface $record) {
 		$fieldName = $this->name;
 		$fieldNameID = $fieldName . 'ID';
 		

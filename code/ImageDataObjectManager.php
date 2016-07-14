@@ -20,7 +20,7 @@ class ImageDataObjectManager extends FileDataObjectManager
 	
 	/**
 	 * Sets the width of the size slider
-	 * @param int $width in pixels.
+	 * @param SS_Int $width in pixels.
 	 */
 	public function setSliderWidth($width = 150) {
 		$this->sliderWidth = intval($width);

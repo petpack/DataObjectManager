@@ -113,7 +113,7 @@ class HasManyDataObjectManager extends DataObjectManager
 	   return $this->sourceClass();
 	}
 	
-	function saveInto(DataObject $record) {
+	function saveInto(DataObjectInterface $record) {
 		$fieldName = $this->name;
 		$saveDest = $record->$fieldName();
 		

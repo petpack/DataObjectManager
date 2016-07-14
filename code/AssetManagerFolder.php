@@ -4,7 +4,7 @@ class AssetManagerFolder extends DataObjectDecorator
 {
   static $permissions = array('add','edit','upload','delete','import');
   
-  public function updateCMSFields(Fieldset $fields)
+  public function updateCMSFields(Fieldset &$fields)
   {
     $fields->removeFieldFromTab("Root.Files","Files");
     $fields->removeFieldFromTab("Root.Files","deletemarked");
