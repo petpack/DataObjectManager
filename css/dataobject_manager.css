@@ -57,10 +57,84 @@
 
 .dataobjectmanager-actions {width:55%;float:left;height:35px;}
 .dataobjectmanager-actions.filter {padding-top:2em;height:auto;}
-.dataobjectmanager-actions a {background: transparent url('../images/bg_button_a.gif') no-repeat scroll top right;display: block;float: left;height: 24px;margin-right: 6px;padding-right: 13px;text-decoration: none;color: #333;font-size:13px;font-weight:bold;cursor:pointer;}
-.dataobjectmanager-actions a span {background: transparent url('../images/bg_button_span.gif') no-repeat;display: block;line-height: 22px;padding: 2px 0 5px 10px;font-size:12px;height:17px;}
-.dataobjectmanager-actions a:active {background: transparent url('../images/bg_button_a.gif') no-repeat scroll right -24px;;display: block;float: left;height: 24px;margin-right: 6px;padding-right: 13px;text-decoration: none;color: #333;font-size:13px;font-weight:bold;}
-.dataobjectmanager-actions a:active span {background: transparent url('../images/bg_button_span.gif') no-repeat left -24px;display: block;line-height: 22px;padding: 2px 0 5px 10px;font-size:12px;height:17px;}
+
+.dataobjectmanager-actions a {
+ 
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+24,fbfbfb+33,e1e1e1+71,dddddd+81,dddddd+100 */
+	background: rgb(255,255,255); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,1) 24%, rgba(251,251,251,1) 33%, rgba(225,225,225,1) 71%, rgba(221,221,221,1) 81%, rgba(221,221,221,1) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 24%,rgba(251,251,251,1) 33%,rgba(225,225,225,1) 71%,rgba(221,221,221,1) 81%,rgba(221,221,221,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 24%,rgba(251,251,251,1) 33%,rgba(225,225,225,1) 71%,rgba(221,221,221,1) 81%,rgba(221,221,221,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#dddddd',GradientType=0 ); /* IE6-9 */
+	
+	border: 1px outset #777;
+	border-radius: 20px;
+
+}
+
+.dataobjectmanager-actions a {
+	
+	display: block;
+	float: left;
+	height: 24px;
+	margin-right: 6px;
+	padding-right: 13px;
+	text-decoration: none;
+	color: #333;
+	font-size:13px;
+	font-weight:bold;
+	cursor:pointer;
+}
+.dataobjectmanager-actions a span {
+
+	display: block;
+	line-height: 22px;
+	padding: 2px 0 5px 10px;
+	font-size:12px;
+	height:17px;
+}
+
+.dataobjectmanager-actions a:active {
+	
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#cdcdcd+0,d1d1d1+19,e6e6e6+76,ececec+100 */
+	background: rgb(205,205,205); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(205,205,205,1) 0%, rgba(209,209,209,1) 19%, rgba(230,230,230,1) 76%, rgba(236,236,236,1) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(205,205,205,1) 0%,rgba(209,209,209,1) 19%,rgba(230,230,230,1) 76%,rgba(236,236,236,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(205,205,205,1) 0%,rgba(209,209,209,1) 19%,rgba(230,230,230,1) 76%,rgba(236,236,236,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#cdcdcd', endColorstr='#ececec',GradientType=0 ); /* IE6-9 */
+
+} 
+
+.dataobjectmanager-actions a:hover {
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+24,ffffff+33,f0f0f0+71,eeeeee+81,eeeeee+100 */
+	background: rgb(255,255,255); /* Old browsers */
+	background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,1) 24%, rgba(255,255,255,1) 33%, rgba(240,240,240,1) 71%, rgba(238,238,238,1) 81%, rgba(238,238,238,1) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 24%,rgba(255,255,255,1) 33%,rgba(240,240,240,1) 71%,rgba(238,238,238,1) 81%,rgba(238,238,238,1) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 24%,rgba(255,255,255,1) 33%,rgba(240,240,240,1) 71%,rgba(238,238,238,1) 81%,rgba(238,238,238,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#eeeeee',GradientType=0 ); /* IE6-9 */
+
+}
+
+.dataobjectmanager-actions a:active {
+	display: block;
+	float: left;
+	height: 24px;
+	margin-right: 6px;
+	padding-right: 13px;
+	text-decoration: none;
+	color: #333;
+	font-size:13px;
+	font-weight:bold;
+}
+
+.dataobjectmanager-actions a:active span {
+	display: block;
+	line-height: 22px;
+	padding: 2px 0 5px 10px;
+	font-size:12px;
+	height:17px;
+}
+
 .AssetAdmin .dataobjectmanager-actions {margin-top:20px;height:25px;}
 .dataobjectmanager-actions a img {vertical-align:-3px;margin-right:3px;}
 .dataobjectmanager-search {width:160px;position:absolute;right:6px;top:7px;}
@@ -71,7 +145,9 @@
 
 .dataobjectmanager-button {float: left; margin-top: 5px; left: 5px; padding: 2px 0px; background-color: #eee; border-color: #CCCCCC #999999 #999999 #CCCCCC; border-style: double; border-width: 2px;}
 .dataobjectmanager-button a {padding: 5px 5px; font-size: 1.1em; color: #333; text-decoration: none;}
-.dataobjectmanager-button a:hover {background-color: #f4f4f4;}
+.dataobjectmanager-button a:hover {
+	background-color: #f4f4f4;
+}
 
 .dataobjectmanager-filter {position:relative;width:30%;float:right;text-align:right;}
 .dataobjectmanager-filter select {width:100%;max-width:250px;}
