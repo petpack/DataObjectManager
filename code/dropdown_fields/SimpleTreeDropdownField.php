@@ -39,6 +39,7 @@ class SimpleTreeDropdownField extends HTMLDropdownField
 				$this->source = $this->getHierarchy((int)$this->parentID);
 			}
 		}
+		
 		return parent::getSource();
 	}
 
@@ -55,6 +56,25 @@ class SimpleTreeDropdownField extends HTMLDropdownField
 
 	private function getHierarchy($parentID, $level = 0)
 	{
+		
+		if (	(!$parentID && !Permission::check("ADMIN")) && 
+				($this->sourceClass == "Folder" || is_subclass_of($this->sourceClass, "Folder"))) 
+		{
+			//a non-admin user is trying to browse folders, 
+			//	force the parent to the client folder for the current subsite
+			//	(to prevent seeing other client folders)
+			//	it is assumed that the subsite system will prevent users 
+			//	from accessing subsites they shouldn't be able to
+			$client = SubsiteDecorator::currentClient();
+			
+			$root = Folder::findOrMake('Uploads/Clients/' . $client->ID);
+			
+			$parentID = $root->ID;
+			
+			//error_log("Restricted viewing to $parentID (" . $root->Filename . ")" );
+			
+		}
+		
 		$options = array();
 		if( $parentID ) {
 			$options[$parentID] = DataObject::get_by_id($this->sourceClass, $parentID)->__get($this->labelField);
