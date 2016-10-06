@@ -445,17 +445,16 @@ EOF
 				if (!$field->isReadOnly()) $titles[] = $field->PluralTitle();
 			}
 		}
-    if(empty($titles))
-      $text = _t('DataObjectManager.SAVE','Save');
-    elseif(sizeof($titles) > 3) {
-      $first_three = array_slice($titles,0,3);
-      $remaining = sizeof(array_slice($titles, 4));
-      $text = sprintf(_t('DataObjectManager.SAVEANDADD','Save and add %s'), implode(', ',$first_three));
-      $text .= ", " . sprintf(_t('DataObjectManager.ANDOTHERCOMPONENTS','and %d other components'),$remaining);
-    }
-    else
-      $text = sprintf(_t('DataObjectManager.SAVEANDADD','Save and add %s'), DOMUtil::readable_list($titles));
-
+		if(empty($titles))
+			$text = _t('DataObjectManager.SAVE','Save');
+		elseif(sizeof($titles) > 3) {
+			$first_three = array_slice($titles,0,3);
+			$remaining = sizeof(array_slice($titles, 4));
+			$text = sprintf(_t('DataObjectManager.SAVEANDADD','Save and add %s'), implode(', ',$first_three));
+			$text .= ", " . sprintf(_t('DataObjectManager.ANDOTHERCOMPONENTS','and %d other components'),$remaining);
+		} else
+			$text = sprintf(_t('DataObjectManager.SAVEANDADD','Save and add %s'), DOMUtil::readable_list($titles));
+		
 		$actions->push(
 			$saveAction = new FormAction("saveComplexTableField", $text)
 		);
