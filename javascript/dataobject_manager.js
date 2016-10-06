@@ -39,13 +39,16 @@ $.fn.DataObjectManager.init = function(obj) {
 				var $iframe = $iframeWrap.find('iframe');
         $iframe.attr('src',$link.attr('href'));
         //$('body').css({'opacity':.3});
-        top = $.fn.DataObjectManager.getPageScroll()[1] + ($.fn.DataObjectManager.getPageHeight() / 10);
+        //var toppos = $.fn.DataObjectManager.getPageScroll()[1] + ($.fn.DataObjectManager.getPageHeight() / 10);
+        var toppos=8;
+        
         $iframeWrap.show().css({
         	'position':'absolute',
         	'z-index':'999',
-        	'left':'50%',
-        	'top' : top,
-        	'margin-left':'-215px'
+        	//'left':'50%',
+        	'top' : toppos,
+        	//'margin-left':'-215px'
+        	'height': '95%'
         }).addClass('loading');
         $iframe.load(function() {
 	        iframe_height = $iframe.contents().find('body').height()+36;
