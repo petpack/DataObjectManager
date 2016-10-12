@@ -889,8 +889,8 @@ class DataObjectManager_Popup extends Form {
 		Requirements::css(SAPPHIRE_DIR . '/css/Form.css');
 		Requirements::css(CMS_DIR . '/css/typography.css');
 		Requirements::css(CMS_DIR . '/css/cms_right.css');
-	    Requirements::css('dataobject_manager/css/dataobject_manager.css');
-	    
+		Requirements::css('dataobject_manager/css/dataobject_manager.css');
+		
  		if($this->dataObject->hasMethod('getRequirementsForPopup')) {
 			$this->dataObject->getRequirementsForPopup();
 		}
