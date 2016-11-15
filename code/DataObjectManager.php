@@ -890,6 +890,7 @@ class DataObjectManager_Popup extends Form {
 		Requirements::css(CMS_DIR . '/css/typography.css');
 		Requirements::css(CMS_DIR . '/css/cms_right.css');
 		Requirements::css('dataobject_manager/css/dataobject_manager.css');
+		Requirements::font_awesome();
 		
  		if($this->dataObject->hasMethod('getRequirementsForPopup')) {
 			$this->dataObject->getRequirementsForPopup();
